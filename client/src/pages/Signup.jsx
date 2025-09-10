@@ -1,33 +1,82 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Signup.css";
-import signupImage from "../assets/ayurveda.png"; // your right side background image
-import logo from "../assets/Ayurlogo.png"; // your logo
-import { Link } from "react-router-dom";
+import signupImage from "../assets/ayurveda.png";
+import logo from "../assets/Ayurlogo.png";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Signup() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [agree, setAgree] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!agree) {
+      alert("You must agree to the terms & policy");
+      return;
+    }
+
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/register", {
+        name,
+        email,
+        password,
+      });
+      alert("Registration successful: " + res.data.name);
+      navigate("/login"); // redirect to login page
+    } catch (err) {
+      alert(err.response?.data?.message || "Registration failed");
+    }
+  };
+
   return (
     <div className="signup-container">
       <div className="signup-left">
         <div className="signup-header">
           <img src={logo} alt="AyurSutra Logo" className="logo" />
-          {/* <h1 className="brand-name">AyurSutra</h1> */}
         </div>
 
         <h2 className="title"><Link to="/signupdr">-- Signup as a Medical Professional</Link></h2>
         <h3 className="subtitle">Get Started Now</h3>
 
-        <form className="signup-form">
+        <form className="signup-form" onSubmit={handleSubmit}>
           <label>Name</label>
-          <input type="text" placeholder="Enter your name" />
+          <input
+            type="text"
+            placeholder="Enter your name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
 
           <label>Email address</label>
-          <input type="email" placeholder="Enter your email" />
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
           <label>Password</label>
-          <input type="password" placeholder="Enter your password" />
+          <input
+            type="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
           <div className="checkbox-container">
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              checked={agree}
+              onChange={(e) => setAgree(e.target.checked)}
+            />
             <span>
               I agree to the <a href="#">terms & policy</a>
             </span>
