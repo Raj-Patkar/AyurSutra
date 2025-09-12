@@ -5,7 +5,7 @@ const patientSchema = new mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true, // Links patient details to registered user
+      required: false, // Links patient details to registered user
     },
     fullName: {
       type: String,

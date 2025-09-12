@@ -30,12 +30,13 @@ const initialState = {
 };
 
 const symptomNames = [
-  "Excess Mucus","Acidity","Constipation","Joint Stiffness",
-  "Sinusitis","Headaches","Dry Skin","Stress",
-  "Muscle Weakness","Chronic Pain","Dry Eyes","Earache",
-  "Memory Issues","Fat Deposits","Hair Fall","Poor Immunity",
-  "Anxiety","Neck Stiffness","Insomnia","Irritability"
+  "excess mucus", "acidity", "constipation", "joint stiffness",
+  "sinusitis", "headaches", "dry skin", "stress",
+  "muscle weakness", "chronic pain", "dry eyes", "earache",
+  "memory issues", "fat deposits", "hairfall", "poor immunity",
+  "anxiety", "neck stiffness", "insomnia", "irritability"
 ];
+
 
 export default function PatientForm() {
   const [step, setStep] = useState(0);
@@ -512,7 +513,6 @@ export default function PatientForm() {
               </section>
             )}
 
-            {/* Navigation */}
             <div className="nav-row">
               <button
                 type="button"
@@ -522,12 +522,22 @@ export default function PatientForm() {
               >
                 &laquo; Back
               </button>
-              {step < 4 ? (
-                <button type="button" className="nav-btn next" onClick={next}>
+
+              {step < 4 && (
+                <button
+                  type="button"
+                  className="nav-btn next"
+                  onClick={next}
+                >
                   Next &raquo;
                 </button>
-              ) : (
-                <button type="submit" className="nav-btn next submit" onClick={handleSubmit}>
+              )}
+
+              {step === 4 && (
+                <button
+                  type="submit"
+                  className="nav-btn next submit"
+                >
                   Submit
                 </button>
               )}

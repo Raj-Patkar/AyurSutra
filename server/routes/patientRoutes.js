@@ -11,9 +11,13 @@ router.post("/", async (req, res) => {
     res.status(201).json({ message: "Patient saved successfully", patient });
   } catch (error) {
     console.error("❌ Error saving patient:", error);
-    res.status(400).json({ message: error.message });
+    res.status(400).json({
+      message: error.message,
+      errors: error.errors,   // <-- send detailed validation errors
+    });
   }
 });
+
 
 // (Optional) GET → fetch all patients
 router.get("/", async (req, res) => {
