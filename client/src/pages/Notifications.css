@@ -1,0 +1,209 @@
+:root {
+  --bg-top: #f7f4ed;
+  --card-white: #ffffff;
+  --accent-teal: #6fc5b0;
+  --accent-teal-dark: #57ab98;
+  --mustard: #b99358;
+  --muted: #6b6b6b;
+  --gold: #b7862b;
+}
+
+/* root */
+.notifications-root {
+  min-height: 100vh;
+    width:213vh;
+  background: var(--bg-top);
+  position: relative;
+  font-family: "Poppins", "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+}
+
+/* topbar */
+.topbar {
+  padding: 28px 48px 0 48px;
+  z-index: 5;
+  position: relative;
+}
+.topbar-inner {
+  display: flex;
+  align-items: center;
+}
+.logo {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.logo img {
+  
+  height: 70px;
+}
+.brand {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+/* main card */
+.notifications-main {
+  max-width: 980px;
+  margin: 20px auto 120px auto;
+  padding: 12px;
+  position: relative;
+  z-index: 5;
+}
+.notifications-card {
+  background: var(--card-white);
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  padding: 22px;
+}
+
+/* heading */
+.form-heading {
+  font-size: 26px;
+  margin: 0 0 18px 0;
+  font-weight: 800;
+}
+.form-heading .accent {
+  color: var(--accent-teal);
+}
+
+/* reminder items */
+.reminder-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+/* each item is a rounded bordered panel */
+.reminder-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid #eee;
+  border-radius: 10px;
+  padding: 18px 20px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.01);
+}
+
+/* left block (title + meta + note) */
+.reminder-left {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* title row with small dot */
+.reminder-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.status-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--accent-teal), var(--accent-teal-dark));
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+  flex: 0 0 14px;
+}
+
+/* title */
+.reminder-title {
+  font-size: 20px;
+  margin: 0;
+  font-weight: 800;
+  color: #111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* date/time meta */
+.reminder-meta {
+  display: flex;
+  gap: 28px;
+  margin-top: 2px;
+  color: #222;
+  font-size: 15px;
+  align-items: center;
+}
+.reminder-meta .meta strong {
+  font-weight: 800;
+  margin-right: 6px;
+}
+
+/* gold note line */
+.reminder-note {
+  color: var(--gold);
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+/* pill tag on right */
+.reminder-tag {
+  margin-left: 20px;
+  padding: 8px 18px;
+  border-radius: 22px;
+  font-weight: 700;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  flex: 0 0 auto;
+  min-width: 140px;
+  text-align: center;
+}
+
+/* variant colors for pills */
+.therapy-tag { background: linear-gradient(180deg, #7fd6ba, #62b89e); }
+.medicine-tag { background: linear-gradient(180deg, #bfe6c6, #9fdba4); color:#123; }
+.diet-tag { background: linear-gradient(180deg, #cfe7c9, #aad8a3); color:#123; }
+
+/* footer */
+.footer-btn {
+  text-align: left;
+  margin-top: 10px;
+}
+.back-btn {
+  background: var(--accent-teal);
+  border: none;
+  padding: 12px 28px;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+.back-btn:hover {
+  background: var(--accent-teal-dark);
+}
+
+/* wave */
+.decor-wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40vh;
+  z-index: 0;
+}
+.decor-wave svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* responsive: stack tag under info on small view */
+@media (max-width: 760px) {
+  .reminder-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .reminder-tag {
+    align-self: flex-end;
+    min-width: 120px;
+  }
+  .reminder-meta { gap: 18px; font-size: 14px; }
+  .reminder-title { font-size: 18px; }
+}
