@@ -4,6 +4,7 @@ import Login from "./pages/login";
 import Signup from "./pages/Signup";
 import Signupdr from "./pages/Signup_dr";
 import Index from "./pages/index";
+import PatientForm from "./pages/PatientForm";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/signupdr" element={<Signupdr />} />
         <Route path="/home" element={<Index />} />
+        <Route path="/PatientForm" element={<PatientForm />} />
       </Routes>
     </Router>
   );

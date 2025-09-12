@@ -27,7 +27,7 @@ function Signup() {
         password,
       });
       alert("Registration successful: " + res.data.name);
-      navigate("/login"); // redirect to login page
+      navigate("/PatientForm"); 
     } catch (err) {
       alert(err.response?.data?.message || "Registration failed");
     }

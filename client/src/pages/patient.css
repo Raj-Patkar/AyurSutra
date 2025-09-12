@@ -1,0 +1,207 @@
+/* patient.css - styled to match screenshots and responsive */
+
+/* color tokens */
+:root{
+  --bg-top: #f7f4ed;
+  --card-white: #ffffff;
+  --accent-teal: #6fc5b0;
+  --accent-teal-dark: #57ab98;
+  --mustard: #b99358;
+  --ribbon-1: #b2e0b5;
+  --ribbon-2: #9fd6a8;
+  --gold: #b7862b;
+  --muted: #6b6b6b;
+  --radius: 6px;
+  --card-radius: 6px;
+}
+
+/* page root */
+.patient-root{
+  height:100vh;
+  width:213vh;
+  background: var(--bg-top);
+  position:relative;
+  overflow-x:hidden;
+  font-family: "Poppins", "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* topbar */
+.topbar{
+  padding: 28px 48px 0 48px;
+  z-index:5;
+  position:relative;
+}
+.topbar-inner{ display:flex; align-items:center; }
+.logo{ display:flex; gap:12px; align-items:center; }
+.logo img{  height:70px; object-fit:contain; border-radius:50%; }
+.brand{ font-weight:700; font-size:20px; color:#111; }
+
+/* main centered content */
+.patient-main{
+  max-width: 1200px;
+  margin: 10px auto 120px auto;
+  padding: 12px 32px 20px 32px;
+  position:relative;
+  z-index:5;
+}
+
+/* white card */
+.form-card{
+  background: var(--card-white);
+  border-radius: 6px;
+  padding: 28px 36px 36px 36px;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.06);
+}
+
+/* heading */
+.form-heading{
+  font-size:26px;
+  margin: 0 0 8px 0;
+  font-weight:800;
+  color:#111;
+}
+.form-heading .accent{ color: var(--accent-teal); }
+
+/* little green underline */
+.section-line{
+  width: 220px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--ribbon-2), var(--ribbon-1));
+  margin-bottom: 18px;
+  border-radius: 6px;
+}
+
+/* form layout - label left column / inputs right */
+.patient-form .row{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  margin: 12px 0;
+  flex-wrap:wrap;
+}
+
+/* label column */
+.patient-form label{
+  min-width: 170px;
+  font-weight:600;
+  color:#222;
+}
+
+/* inputs */
+.patient-form input[type="text"],
+.patient-form input[type="date"],
+.patient-form input[type="tel"],
+.patient-form textarea{
+  flex: 1 1 520px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 2px solid rgba(183,134,43,0.18);
+  outline: none;
+  font-size:14px;
+  color:#333;
+  background: transparent;
+}
+.patient-form textarea{ resize:vertical; min-height:80px; }
+
+/* small inputs used in same row */
+.patient-form .small{
+  width: 160px;
+  flex: 0 0 160px;
+}
+
+/* extra small for DOB */
+.dob-label { margin-left: 6px; min-width: 120px; }
+.dob-input { width: 190px; flex:0 0 190px; }
+
+/* inline groups (radios/checkboxes) */
+.inline{ display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
+.checkbox-inline{ display:flex; gap:6px; align-items:center; font-weight:500; color:#333; }
+.small-check{ font-weight:500; }
+
+/* multi-symptoms grid */
+.multi-symptoms .symptom-grid{
+  display:grid;
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  gap: 10px 14px;
+  margin-top:8px;
+  width:100%;
+}
+.symptom-item{ display:flex; gap:8px; align-items:center; font-weight:500; }
+
+/* nav row - back + next aligned like screenshots */
+.nav-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:22px;
+}
+
+/* buttons */
+.nav-btn{
+  border:none;
+  padding: 12px 26px;
+  border-radius: 10px;
+  font-weight:700;
+  cursor:pointer;
+  background: var(--accent-teal);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(79,151,137,0.15);
+  transition: transform 150ms ease, background 150ms ease;
+}
+.nav-btn.back{
+  background: var(--accent-teal);
+  border-radius: 12px;
+}
+.nav-btn.next{ background: var(--accent-teal); }
+
+.nav-btn:disabled,
+.nav-btn[aria-disabled="true"]{
+  opacity:0.45;
+  cursor:not-allowed;
+}
+
+/* submit style (last step) */
+.nav-btn.submit{
+  background: linear-gradient(180deg, var(--accent-teal), var(--accent-teal-dark));
+}
+
+/* decorative wave at bottom */
+.decor-wave{
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:100%;
+  height: 40vh;
+  z-index: 0;
+  pointer-events:none;
+}
+.decor-wave svg{ display:block; width:100%; height:100%; }
+
+/* responsive adjustments */
+@media (max-width: 1000px){
+  .patient-main{ padding: 12px 20px; margin-bottom: 140px; }
+  .patient-form label{ min-width: 150px; }
+  .multi-symptoms .symptom-grid{ grid-template-columns: repeat(3, minmax(140px, 1fr)); }
+  .patient-form input[type="text"], .patient-form textarea { flex-basis: 380px; }
+}
+
+@media (max-width: 720px){
+  .topbar{ padding: 14px 18px 0 18px; }
+  .patient-main{ margin: 8px auto 160px auto; padding: 12px 14px; }
+  .form-card{ padding: 18px; }
+  .patient-form label{ min-width: 100%; }
+  .patient-form .row{ flex-direction:column; align-items:flex-start; gap:8px; }
+  .patient-form input[type="text"], .patient-form textarea, .patient-form input[type="date"]{
+    width:100%;
+    flex-basis: auto;
+  }
+  .multi-symptoms .symptom-grid{ grid-template-columns: repeat(2, minmax(120px, 1fr)); }
+  .nav-row{ flex-direction:row; gap:12px; }
+}
+
+/* smallest phones */
+@media (max-width:420px){
+  .form-heading{ font-size:20px; }
+  .patient-form label{ font-size:14px; }
+  .nav-btn{ padding:10px 16px; font-size:14px; }
+}
