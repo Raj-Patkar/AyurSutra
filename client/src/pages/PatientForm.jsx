@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import "./patient.css";
 import logo from "../assets/Ayurlogo.png";
 
@@ -57,14 +58,13 @@ export default function PatientForm() {
   };
 
   const handleSubmit = async (e) => {
-    // 🚫 Don’t allow submit before last step
     e.preventDefault();
     if (step < 4) {
       return;
     }
 
     const payload = {
-      userId: "64f1f4f4f4f4f4f4f4f4f4f4", // 🔹 Replace with logged-in user id
+      userId: "64f1f4f4f4f4f4f4f4f4f4f4", // 
       fullName: data.fullName,
       gender: data.gender,
       dob: data.dob,
@@ -99,6 +99,7 @@ export default function PatientForm() {
       console.log(result);
       setData(initialState);
       setStep(0);
+      navigate("/"); 
     } catch (err) {
       console.error("❌ Error submitting form:", err);
       alert("Failed to save patient. Check console for details.");
