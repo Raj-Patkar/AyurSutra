@@ -1,51 +1,138 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/Ayurlogo.png";
 
 function SessionDetails() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const therapyName = location.state?.therapyName;
+
+  const [therapy, setTherapy] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!therapyName) return;
+
+    const fetchTherapy = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:5000/api/patients/therapy/${encodeURIComponent(
+            therapyName
+          )}`
+        );
+        if (!res.ok) throw new Error("Therapy not found");
+        const data = await res.json();
+        setTherapy(data);
+      } catch (err) {
+        console.error("❌ Error fetching therapy details:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTherapy();
+  }, [therapyName]);
+
+  if (!therapyName) {
+    return (
+      <div style={styles.container}>
+        <h2>No therapy selected</h2>
+        <button style={styles.button} onClick={() => navigate(-1)}>
+          Go Back
+        </button>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div style={styles.container}>
+        <h2>Loading therapy details...</h2>
+      </div>
+    );
+  }
+
+  if (!therapy) {
+    return (
+      <div style={styles.container}>
+        <h2>No details found for "{therapyName}"</h2>
+        <button style={styles.button} onClick={() => navigate(-1)}>
+          Go Back
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        {/* Logo and Name */}
         <div style={styles.header}>
-          <img
-            src={logo}
-            alt="Ayurlogo"
-            style={styles.logo}
-          />
-          {/* <span style={styles.title}>AyurSutra</span> */}
+          <img src={logo} alt="Ayurlogo" style={styles.logo} />
         </div>
 
         <h2 style={styles.sessionTitle}>Session Details</h2>
 
-        {/* Session Type */}
-        <div style={styles.sessionType}>
-          Virechana
-        </div>
+        <div style={styles.sessionType}>{therapy["Therapy Name"]}</div>
 
-        {/* Session Info */}
         <div style={styles.infoGrid}>
-          <div><strong>Date</strong><br />9 Sep 2025</div>
-          <div><strong>Time</strong><br />11:00 Am</div>
-          <div><strong>Status</strong><br /><span style={styles.status}>Confirmed</span></div>
-          <div><strong>Doctor</strong><br />Dr.Priya</div>
-          <div><strong>Duration</strong><br />3 Hours</div>
+          <div>
+            <strong>Category</strong>
+            <br />
+            {therapy["Category"] || "N/A"}
+          </div>
+          <div>
+            <strong>Duration</strong>
+            <br />
+            {therapy["Recommended Duration (days)"] || "N/A"}
+          </div>
+          <div>
+            <strong>No. of Sessions</strong>
+            <br />
+            {therapy["No. of Sessions"] || "N/A"}
+          </div>
+          <div>
+            <strong>Medicines / Oils</strong>
+            <br />
+            {therapy["Medicines / Oils Used"] || "N/A"}
+          </div>
         </div>
 
-        {/* Pre-Care and Post-Care */}
         <div style={styles.careGrid}>
           <div>
-            <strong>Pre-Care</strong><br />
-            3–5 Days Of Ghee Intake, Oil Massage, Steam, Fasting On Procedure Day
+            <strong>Pre-Care</strong>
+            <br />
+            {therapy["Pre-Care"] || "N/A"}
           </div>
           <div>
-            <strong>Post-Care</strong><br />
-            Avoid Cold Exposure, Rest, Avoid Oily/Spicy Foods, And Follow Rasayana
+            <strong>Post-Care</strong>
+            <br />
+            {therapy["Post-Care"] || "N/A"}
           </div>
         </div>
 
-        {/* Buttons */}
+        <div style={styles.careGrid}>
+          <div>
+            <strong>Diet Guidelines</strong>
+            <br />
+            {therapy["Diet Guidelines"] || "N/A"}
+          </div>
+          <div>
+            <strong>Contraindications</strong>
+            <br />
+            {therapy["Contraindications"] || "N/A"}
+          </div>
+        </div>
+
+        {therapy["Notes"] && (
+          <div style={{ marginTop: "20px" }}>
+            <strong>Notes:</strong> {therapy["Notes"]}
+          </div>
+        )}
+
         <div style={styles.buttonContainer}>
-          <button style={styles.button}>Back</button>
+          <button style={styles.button} onClick={() => navigate(-1)}>
+            Back
+          </button>
           <button style={styles.button}>Continue</button>
         </div>
       </div>
@@ -55,89 +142,76 @@ function SessionDetails() {
 
 const styles = {
   container: {
-    backgroundColor: '#ffffff',
-    Height: '100vh',
-    width: '100%',
-    // display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: '20px',
-    fontFamily: 'Arial, sans-serif',
+    backgroundColor: "#ffffff",
+    minHeight: "100vh",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    padding: "20px",
+    fontFamily: "Arial, sans-serif",
   },
   card: {
-    backgroundColor: '#f9f7f1',
-    padding: '30px',
-    borderRadius: '10px',
-    maxWidth: '1000px',
-    width: '100%',
-    boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+    backgroundColor: "#f9f7f1",
+    padding: "30px",
+    borderRadius: "10px",
+    maxWidth: "1000px",
+    width: "100%",
+    boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
   },
   header: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '20px',
+    display: "flex",
+    alignItems: "center",
+    marginBottom: "20px",
   },
   logo: {
-    height: '70px',
-    marginRight: '10px',
-  },
-  title: {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    color: '#333',
+    height: "70px",
+    marginRight: "10px",
   },
   sessionTitle: {
-    textAlign: 'center',
-    fontSize: '28px',
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: '20px',
+    textAlign: "center",
+    fontSize: "28px",
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: "20px",
   },
   sessionType: {
-    backgroundColor: '#99d4a7',
-    padding: '15px',
-    textAlign: 'center',
-    fontSize: '24px',
-    fontWeight: 'bold',
-    color: '#ffffff',
-    borderRadius: '5px',
-    marginBottom: '20px',
+    backgroundColor: "#99d4a7",
+    padding: "15px",
+    textAlign: "center",
+    fontSize: "24px",
+    fontWeight: "bold",
+    color: "#ffffff",
+    borderRadius: "5px",
+    marginBottom: "20px",
   },
   infoGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: '15px',
-    marginBottom: '20px',
-    fontSize: '16px',
-  },
-  status: {
-    backgroundColor: '#74c4b0',
-    color: '#fff',
-    padding: '5px 10px',
-    borderRadius: '15px',
-    fontWeight: 'bold',
-    display: 'inline-block',
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+    gap: "15px",
+    marginBottom: "20px",
+    fontSize: "16px",
   },
   careGrid: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: '20px',
-    marginBottom: '30px',
-    fontSize: '16px',
-    color: '#333',
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: "20px",
+    marginBottom: "30px",
+    fontSize: "16px",
+    color: "#333",
   },
   buttonContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    display: "flex",
+    justifyContent: "space-between",
   },
   button: {
-    backgroundColor: '#74c4b0',
-    border: 'none',
-    padding: '10px 25px',
-    color: '#fff',
-    fontSize: '16px',
-    borderRadius: '5px',
-    cursor: 'pointer',
+    backgroundColor: "#74c4b0",
+    border: "none",
+    padding: "10px 25px",
+    color: "#fff",
+    fontSize: "16px",
+    borderRadius: "5px",
+    cursor: "pointer",
   },
 };
 

@@ -10,6 +10,7 @@ import AppointmentSchedule from "./pages/AppointmentSchedule";
 import Feedback from "./pages/Feedback";
 import Notifications from "./pages/Notification";
 import Dashboard from "./pages/Dashboard";
+import SessionDetails from "./pages/session";
 
 function App() {
   return (
@@ -21,11 +22,13 @@ function App() {
         <Route path="/signupdr" element={<Signupdr />} />
         <Route path="/home" element={<Index />} />
         <Route path="/PatientForm" element={<PatientForm />} />
-        <Route path="/Recommend" element={<Recommend />} />
+        <Route path="/recommend" element={<Recommend />} />
+        <Route path="/session" element={<SessionDetails />} /> 
         <Route path="/schedule" element={<AppointmentSchedule />} />  
         <Route path="/feedback" element={<Feedback />} /> 
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        
       </Routes>
     </Router>
   );

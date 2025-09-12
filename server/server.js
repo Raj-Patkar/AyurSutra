@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
-import patientRoutes from "./routes/patientRoutes.js"; // 👈 NEW
+import patientRoutes from "./routes/patientRoutes.js"; 
 import cors from "cors";
 
 dotenv.config();

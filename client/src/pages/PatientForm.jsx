@@ -42,6 +42,7 @@ const symptomNames = [
 export default function PatientForm() {
   const [step, setStep] = useState(0);
   const [data, setData] = useState(initialState);
+  const navigate = useNavigate();
 
   const next = () => setStep((s) => Math.min(4, s + 1));
   const back = () => setStep((s) => Math.max(0, s - 1));
@@ -57,54 +58,78 @@ export default function PatientForm() {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (step < 4) {
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (step < 4) return;
+
+  const payload = {
+    userId: "64f1f4f4f4f4f4f4f4f4f4f4",
+    fullName: data.fullName,
+    gender: data.gender,
+    dob: data.dob,
+    contactNo: data.contact,
+    address: data.address,
+    pincode: data.pincode,
+    wakeupTime: data.wakeup,
+    sleepTime: data.sleep,
+    foodHabits: data.foodHabit,
+    appetite: data.appetite,
+    sleepQuality: data.sleepQuality,
+    habits: Object.keys(data.habits).filter(h => data.habits[h]),
+    pastDiseasesOrSurgeries: data.pastIllness,
+    currentMedications: data.currentMeds,
+    allergies: data.allergies,
+    chronicConditions: Object.keys(data.chronic).filter(c => data.chronic[c]),
+    currentDiseases: data.diseaseName,
+    symptoms: Object.keys(data.symptomsList).filter(s => data.symptomsList[s]),
+  };
+
+  try {
+    // 1️⃣ Save patient
+    const res = await fetch("http://localhost:5000/api/patients", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) {
+      console.error("Backend validation error:", result);
+      alert(result.message || "Failed to save patient. Check console.");
       return;
     }
 
-    const payload = {
-      userId: "64f1f4f4f4f4f4f4f4f4f4f4", // 
-      fullName: data.fullName,
-      gender: data.gender,
-      dob: data.dob,
-      contactNo: data.contact,
-      address: data.address,
-      pincode: data.pincode,
-      wakeupTime: data.wakeup,
-      sleepTime: data.sleep,
-      foodHabits: data.foodHabit,
-      appetite: data.appetite,
-      sleepQuality: data.sleepQuality,
-      habits: Object.keys(data.habits).filter((h) => data.habits[h]),
-      pastDiseasesOrSurgeries: data.pastIllness,
-      currentMedications: data.currentMeds,
-      allergies: data.allergies,
-      chronicConditions: Object.keys(data.chronic).filter((c) => data.chronic[c]),
-      currentDiseases: data.diseaseName,
-      symptoms: Object.keys(data.symptomsList).filter((s) => data.symptomsList[s]),
-    };
-
-    try {
-      const res = await fetch("http://localhost:5000/api/patients", {
+    // 2️⃣ Fetch therapy suggestions
+    const suggestRes = await fetch(
+      "http://localhost:5000/api/patients/suggest-therapy",
+      {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+        body: JSON.stringify({
+          symptoms: payload.symptoms,
+          currentDiseases: payload.currentDiseases,
+        }),
+      }
+    );
 
-      if (!res.ok) throw new Error("Failed to save patient");
+    const suggestions = await suggestRes.json();
 
-      const result = await res.json();
-      alert("✅ Patient saved successfully!");
-      console.log(result);
-      setData(initialState);
-      setStep(0);
-      navigate("/"); 
-    } catch (err) {
-      console.error("❌ Error submitting form:", err);
-      alert("Failed to save patient. Check console for details.");
+    if (!suggestRes.ok) {
+      console.error("Therapy suggestion error:", suggestions);
+      alert("Failed to fetch therapy suggestions. Check console.");
+      return;
     }
-  };
+
+    // 3️⃣ Navigate to recommendations page only after suggestions are ready
+    navigate("/recommend", { state: { therapies: suggestions.suggestions } });
+
+  } catch (err) {
+    console.error("Unexpected error submitting form:", err);
+    alert("An unexpected error occurred. Check console for details.");
+  }
+};
+
 
   return (
     <div className="patient-root">
