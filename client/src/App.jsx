@@ -11,6 +11,7 @@ import Feedback from "./pages/Feedback";
 import Notifications from "./pages/Notification";
 import Dashboard from "./pages/Dashboard";
 import SessionDetails from "./pages/session";
+import Calendar from "./pages/calendar";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/feedback" element={<Feedback />} /> 
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/calendar" element={<Calendar />} />
         
       </Routes>
     </Router>

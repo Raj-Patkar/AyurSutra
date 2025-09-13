@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; 
 import {
   LineChart,
   Line,
@@ -11,6 +12,7 @@ import {
   CartesianGrid,
 } from "recharts";
 import "./dashboard.css";
+import { useActionState } from "react";
 
 /**
  * Place an app logo at /public/logo.png
@@ -20,17 +22,18 @@ import "./dashboard.css";
 const data = [
   
 
-  { date: "01 Sep", value: 30 },
-  { date: "03 Sep", value: 40 },
-  { date: "06 Sep", value: 50 },
-  { date: "08 Sep", value: 58 },
-  { date: "10 Sep", value: 65 },
+  { date: "16 Sep", value: 30 },
+  { date: "18 Sep", value: 40 },
+  { date: "21 Sep", value: 50 },
+  { date: "23 Sep", value: 58 },
+  { date: "24 Sep", value: 65 },
   
 
 
 ];
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   return (
     <div className="dashboard-root">
       {/* Top header (logo left, user right) */}
@@ -79,10 +82,14 @@ export default function Dashboard() {
               <div className="nav-label">Progress</div>
             </div>
 
-            <div className="nav-item">
+            {/* <div className="nav-item">
               <div className="nav-icon">🔔</div>
               <div className="nav-label">Notifications</div>
-            </div>
+            </div> */}
+            <div className="nav-item" style={{cursor: "pointer"}}>
+  <div className="nav-icon">🔔</div>
+  <div className="nav-label" onClick={() => navigate("/notifications")}>Notifications</div>
+</div>
 
             <div className="nav-item">
               <div className="nav-icon">⤴</div>
@@ -117,7 +124,7 @@ export default function Dashboard() {
                 <div className="metric-card">
                   <div className="metric-label">Next Session</div>
                   <div className="metric-body center">
-                    <div className="metric-title">14 Sep 2025,</div>
+                    <div className="metric-title">21 Sep 2025,</div>
                     <div className="metric-sub">10:00 AM</div>
                   </div>
                 </div>

@@ -1,52 +1,40 @@
 import React from "react";
 import "./appointment.css";
-
+import { useNavigate } from "react-router-dom";  
 const appointments = [
   {
     status: "Confirmed",
-    date: "08 Sep 2025",
+    date: "16 Sep 2025",
     time: "11:00am",
-    therapy: "Swedana",
-    doctor: "Dr. Kavita",
-  },
-  {
-    status: "Confirmed",
-    date: "09 Sep 2025",
-    time: "11:00am",
-    therapy: "Virechana",
-    doctor: "Dr. Shinde",
-  },
-  {
-    status: "Scheduled",
-    date: "11 Sep 2025",
-    time: "11:00am",
-    therapy: "Abhyanga",
+    therapy: "virechana",
     doctor: "Dr. Priya",
   },
   {
-    status: "Confirmed",
-    date: "14 Sep 2025",
-    time: "11:00am",
-    therapy: "Shirodhara",
-    doctor: "Dr. Patil",
-  },
-  {
     status: "Scheduled",
-    date: "15 Sep 2025",
+    date: "26 Sep 2025",
     time: "11:00am",
     therapy: "Basti",
     doctor: "Dr. Shreeya",
   },
   {
     status: "Scheduled",
-    date: "20 Sep 2025",
+    date: "05 oct 2025",
     time: "11:00am",
-    therapy: "Takradhara",
-    doctor: "Dr. Kavita",
+    therapy: "Abhyanga",
+    doctor: "Dr. Priya",
   },
+  {
+    status: "Confirmed",
+    date: "21 oct 2025",
+    time: "11:00am",
+    therapy: "Shirodhara",
+    doctor: "Dr. Patil",
+  },
+
 ];
 
 export default function AppointmentSchedule() {
+  const navigate = useNavigate();
   return (
     <div className="appointment-root">
       <header className="topbar">
@@ -87,8 +75,8 @@ export default function AppointmentSchedule() {
           </div>
 
           <div className="nav-row">
-            <button className="nav-btn back">&laquo; Back</button>
-            <button className="nav-btn next">Next &raquo;</button>
+            <button className="nav-btn back" onClick={() => navigate(-1)}> Back</button>
+            <button className="nav-btn next" onClick={() => navigate("/dashboard")}>Next &raquo;</button>
           </div>
         </div>
       </main>

@@ -1,17 +1,18 @@
 import React from "react";
 import "./notifications.css";
+import { useNavigate } from "react-router-dom";
 
 const reminders = [
   {
     type: "Therapy",
     title: "Virechana Session",
-    date: "09 Sep 2025",
+    date: "21 Sep 2025",
     time: "11:00am",
     note: "Avoid Heavy Meals",
   },
   {
     type: "Medicine",
-    title: "Take Thyroid Medication",
+    title: "Avipattikar Churna, Trivrit; prior oleation oils",
     date: "10 Sep 2025",
     time: "09:00am",
     note: "Before Breakfast",
@@ -26,6 +27,7 @@ const reminders = [
 ];
 
 export default function Notifications() {
+  const navigate= useNavigate();
   return (
     <div className="notifications-root">
       {/* Header */}
@@ -74,7 +76,7 @@ export default function Notifications() {
           </div>
 
           <div className="footer-btn">
-            <button className="back-btn">&laquo; Back</button>
+            <button className="back-btn" onClick={() => navigate("/dashboard")}>&laquo; Back</button>
           </div>
         </div>
       </main>

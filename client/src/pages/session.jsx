@@ -133,7 +133,12 @@ function SessionDetails() {
           <button style={styles.button} onClick={() => navigate(-1)}>
             Back
           </button>
-          <button style={styles.button}>Continue</button>
+          <button
+  style={styles.button}
+  onClick={() => navigate("/calendar", { state: { therapy } })}
+>
+  Continue
+</button>
         </div>
       </div>
     </div>
